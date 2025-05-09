@@ -49,7 +49,7 @@ Este projeto implementa um simulador de algoritmos de substituição de páginas
 - **Git**
 
 
-### 1) Clonar o repositório
+### 1. Clonar o repositório
 
 Abra o PowerShell (ou terminal de sua preferência) e execute:
 
@@ -60,7 +60,7 @@ Abra o PowerShell (ou terminal de sua preferência) e execute:
   cd sim-sub-pages
 ```
 
-### 2.1) Configurar o Java 21 caso seja preciso:
+### 2. Configurar o Java 21 caso seja preciso:
 1. link para o executavel do jdk21(https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.exe) 
 2. Após instalar o JDK21 configure a variável JAVA_HOME (temporário — só vale para a sessão atual):
    1. powershell:
@@ -71,7 +71,7 @@ Abra o PowerShell (ou terminal de sua preferência) e execute:
       ```bash
       set JAVA_HOME=C:\Program Files\Java\jdk-21
     ```
-### 2.2) Instalar o Maven caso seja preciso:
+### 3. Instalar o Maven caso seja preciso:
 * obs: é possivel que funcione sem baixar o maven diretamente, mas ao inicializar o projeto irá inicar a instalação das bibliotecas.
 
 1. Baixe o ZIP em https://maven.apache.org/download.cgi
@@ -79,7 +79,7 @@ Abra o PowerShell (ou terminal de sua preferência) e execute:
 3. Adicione `C:\apache-maven\bin` à variável de ambiente `PATH`
 
 
-### 3) Inicializar o projeto
+### 4. Inicializar o projeto
 
 ```shell script
   ./mvnw quarkus:dev
