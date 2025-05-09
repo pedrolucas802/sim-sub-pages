@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Simulador de Substituição de Páginas</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.js"></script>
+</head>
+<body>
+<div class="card">
+    <h1>Simulador de Substituição de Páginas</h1>
+
+    <label for="testSelect">Caso de teste rápido:</label>
+    <select id="testSelect">
+        <option value="">escolha um caso...</option>
+    </select>
+
+    <label>Páginas (disponíveis):</label>
+    <input type="text" name="refs"
+           value="A|B|C|D|E|F|G|H|I|J" disabled>
+
+    <label>Fila de páginas (referências):</label>
+    <input form="simForm" type="text" name="pageQueue"
+           placeholder="ex: G|D|G|C|..." required>
+
+    <label>Fila de ações (L/E):</label>
+    <input form="simForm" type="text" name="actionQueue"
+           placeholder="ex: E|L|L|E|..." required>
+
+    <form id="simForm" method="post" action="/">
+        <label>Tamanho da memória:</label>
+        <input type="number" name="memorySize" value="5" required>
+
+        <label>Interrupção do relógio (cada N refs):</label>
+        <input type="number" name="clockInterruption" value="5" required>
+
+        <label>τ (tau):</label>
+        <input type="number" name="tau" value="5" required>
+
+        <label>Algoritmos:</label>
+        <div class="algos">
+            <label class="algo"><input type="checkbox" name="algs" value="OPTIMAL" checked> Ótimo</label>
+            <label class="algo"><input type="checkbox" name="algs" value="FIFO"    checked> FIFO</label>
+            <label class="algo"><input type="checkbox" name="algs" value="CLOCK"   checked> CLOCK</label>
+            <label class="algo"><input type="checkbox" name="algs" value="LRU"     checked> LRU</label>
+        </div>
+
+        <button type="submit">Simular</button>
+    </form>
+
+
+    {#if result}
+    <h2 style="margin-top:1.5rem;color:#3ddc91">Resultado da Simulação</h2>
+    <ul style="margin:1rem;">
+        {#for entry in result.entrySet()}
+        <li>
+            <strong style="color:#3ddc91">{entry.key}</strong>:
+            {entry.value.acertos} acertos |
+            {entry.value.faltas} faltas |
+            {entry.value.tempoMs} ms
+        </li>
+        {/for}
+    </ul>
+
+    <img src="data:image/png;base64,{chartImage}"
+         alt="Gráfico de faltas, acertos e tempo"
+         style="display:block;margin:1rem auto;max-width:100%; border-radius: 1rem;border-color: #3ddc91;"/>
+    {/if}
+
+    <p style="margin-top:2rem;text-align:center">
+        <a href="/history">Ver histórico</a>
+    </p>
+
+    <details class="algos-info">
+        <summary>Sobre os algoritmos</summary>
+        <p>Quando uma página não está em memória e é referenciada, ocorre uma falta de página. O sistema operacional precisa então escolher qual página carregada substituir — idealmente, a menos utilizada.</p>
+        <p>Existem vários algoritmos para tomar essa decisão:</p>
+
+        <details>
+            <summary>Algoritmo Ótimo</summary>
+            <p>O algoritmo ótimo é excelente, mas impossível na prática. Apesar disso, pode ser utilizado como referência para mensurar o desempenho dos outros algoritmos.</p>
+            <p>Seu funcionamento ocorre da seguinte forma: quando há uma falta de página, as outras páginas em memória são analisadas de acordo com o número de instruções que serão executadas antes de cada página ser referenciada novamente.</p>
+            <p>Por exemplo, se uma página só for referenciada após 8 milhões de instruções e outra após 6 milhões, remover a primeira traz maior ganho de desempenho, pois muitas instruções serão executadas antes de ela se tornar necessária.</p>
+            <p>Entretanto, para implementar algo assim, o sistema operacional precisaria saber quando cada página será referenciada — informação impossível de obter em tempo real. Assim, esse algoritmo só pode ser aplicado em simuladores, onde as referências são previsíveis.</p>
+        </details>
+
+        <details>
+            <summary>FIFO</summary>
+            <p>O algoritmo FIFO(First In, First Out, ou em português “O Primeiro a Entrar é o Primeiro a Sair”) é de baixo custo e bastante conhecido. Seu funcionamento é simples.</p>
+            <p>O sistema operacional mantém uma lista de todas as páginas carregadas em memória, com a página mais recente no final e a mais antiga no início. Quando ocorre uma falta de página, a página que está na frente da fila é removida e a nova é adicionada ao fim.</p>
+            <p>No entanto, ao usar FIFO, surge um problema: a página mais antiga ainda pode ser útil e ser referenciada logo após ser removida, causando nova falta de página.</p>
+        </details>
+
+        <details>
+            <summary>Segunda-Chance (CLOCK)</summary>
+            <p>Esse algoritmo surge como uma melhoria ao FIFO.</p>
+            <p>Para evitar descartar uma página útil, utiliza-se o bit de referenciação dessa página. Se esse bit for 0, considera-se que a página foi pouco usada e ela é substituída imediatamente. Se for 1, o bit é limpo, a página é movida para o final da fila e a busca continua.</p>
+            <p>Se todas as páginas tiverem sido referenciadas (bit = 1), o algoritmo Segunda-Chance retorna ao comportamento FIFO.</p>
+        </details>
+
+        <details>
+            <summary>LRU</summary>
+            <p>O algoritmo LRU (Least Recently Used, ou em português “Menos Recentemente Usado”) é uma boa aproximação do algoritmo ótimo. Baseia-se na ideia de que, se uma página não foi referenciada há muito tempo, provavelmente continuará sem ser referenciada. Logo, em caso de falta de página, essa é a melhor candidata a ser removida.</p>
+            <p>Embora seja eficiente na redução de faltas, sua implementação é custosa: é necessário manter uma lista encadeada de todas as páginas em memória, ordenada pela recência de uso — a mais usada na frente e a menos usada ao final. Essa lista precisa ser constantemente atualizada, e as operações de busca, remoção e reinserção demandam tempo.</p>
+            <p>Para tornar o LRU menos custoso, podem-se usar recursos de hardware. Uma abordagem utiliza um contador de 64 bits (C), incrementado a cada instrução, cujo valor é armazenado na entrada da tabela de páginas. Quando ocorre a falta de página, o sistema operacional lê todos os contadores e remove aquela com o menor valor, correspondente à página menos recentemente usada.</p>
+        </details>
+    </details>
+    <footer>
+        Pedro L. Barreto (Matrícula: 2220318 – Universidade de Fortaleza)
+    </footer>
+</div>
+
+<script src="/js/test-values.js" defer></script>
+<script src="/js/chart.js"      defer></script>
+
+</body>
+</html>

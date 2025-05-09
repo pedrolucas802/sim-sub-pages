@@ -1,0 +1,47 @@
+<!-- src/main/resources/templates/history.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Histórico de Simulações</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<div class="card">
+    <h1>Histórico de Simulações</h1>
+
+    <p style="text-align:center; margin-bottom: 30px">
+        <a href="/">← Nova simulação</a>
+    </p>
+
+    {#if records.isEmpty()}
+    <p>Nenhuma simulação registrada.</p>
+    {#else}
+    {#for record : records}
+    <section style="margin-bottom:2rem;padding: 2px">
+        <h2 style="margin-bottom: 2px">Simulação {record.order}</h2>
+        <p><strong style="color: #3ddc91">Referências:</strong> {record.refs}</p>
+        <p><strong style="color: #3ddc91">Frames (memória):</strong> {record.frames}</p>
+        <p><strong style="color: #3ddc91">τ:</strong> {record.tau}</p>
+        <p><strong style="color: #3ddc91">Duração total:</strong> {record.duration} ms</p>
+        <div style="text-align:center; margin:1rem 0;">
+            <img src="data:image/png;base64,{record.chartImage}"
+                 alt="Gráfico de resultados"
+                 style="display:block;margin:1rem auto;max-width:100%; border-radius: 1rem; border-color: #3ddc91;"/>
+        </div>
+        <h3>Resultados por algoritmo</h3>
+        <ul style="margin:1rem;">
+            {#for algEntry : record.algResults.entrySet()}
+            <li>
+                <strong style="color: #3ddc91">{algEntry.key}</strong>: {algEntry.value}
+            </li>
+            {/for}
+        </ul>
+        <hr style="border:none; border-top:1px solid #3ddc91; margin:2rem 0;"/>
+    </section>
+    {/for}
+    {/if}
+
+</div>
+</body>
+</html>
