@@ -25,7 +25,6 @@ Este projeto implementa um simulador de algoritmos de substituição de páginas
 | `tau`               | Parâmetro τ para WS-Clock e NRU (idade mínima de página para working-set).                             |
 | `algs`              | Lista de algoritmos a executar (valores aceitos: `FIFO`, `CLOCK`, `LRU`, `OPTIMAL`, `NRU`, `WS_CLOCK`).|
 
----
 
 ## Organização do projeto
 ### Camadas
@@ -39,6 +38,7 @@ Este projeto implementa um simulador de algoritmos de substituição de páginas
    Arquivos HTML com marcações para exibir formulário, resultados e histórico de simulações.
 5. Recursos estáticos (assets/TestValues.json):
    Contém casos de teste para preencher rapidamente o formulário na interface.
+
 ---
 
 ## Como baixar e executar (Windows)
@@ -65,13 +65,13 @@ Abra o PowerShell (ou terminal de sua preferência) e execute:
 2. Após instalar o JDK21 configure a variável JAVA_HOME (temporário — só vale para a sessão atual):
    1. powershell:
       ```bash
-            $env:JAVA_HOME = "C:\Program Files\Java\jdk-21"
+      $env:JAVA_HOME = "C:\Program Files\Java\jdk-21"
       ```
    2. cmd
       ```bash
-         set JAVA_HOME=C:\Program Files\Java\jdk-21
-        ```
-### 2.2) Instalar o Maven caso ja nao tenha
+      set JAVA_HOME=C:\Program Files\Java\jdk-21
+    ```
+### 2.2) Instalar o Maven caso seja preciso:
 * obs: é possivel que funcione sem baixar o maven diretamente, mas ao inicializar o projeto irá inicar a instalação das bibliotecas.
 
 1. Baixe o ZIP em https://maven.apache.org/download.cgi
