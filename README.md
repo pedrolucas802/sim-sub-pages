@@ -71,7 +71,8 @@ Abra o PowerShell (ou terminal de sua preferência) e execute:
    2. cmd
       ```bash
       set JAVA_HOME=C:\Program Files\Java\jdk-21
-    ```
+      ```
+      
 ### 3. Instalar o Maven caso seja preciso:
 * obs: é possivel que funcione sem baixar o maven diretamente, mas ao inicializar o projeto irá inicar a instalação das bibliotecas.
 
@@ -109,5 +110,8 @@ Abra o PowerShell (ou terminal de sua preferência) e execute:
 
 
 ---
+### Relatorio: 
+https://docs.google.com/document/d/1cEcBfpuABUQ_o9AEPpdovvUGTw2XiAZL8TeWC-TdmfY/edit?usp=sharing 
 
 Pedro L. Barreto (matrícula: 2220318, Universidade de Fortaleza)
+
