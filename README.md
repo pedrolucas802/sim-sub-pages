@@ -25,6 +25,7 @@ Este projeto implementa um simulador de algoritmos de substituição de páginas
 | `tau`               | Parâmetro τ para WS-Clock e NRU (idade mínima de página para working-set).                             |
 | `algs`              | Lista de algoritmos a executar (valores aceitos: `FIFO`, `CLOCK`, `LRU`, `OPTIMAL`, `NRU`, `WS_CLOCK`).|
 
+Referência: https://sdpm-simulator.netlify.app/simulator
 
 ## Organização do projeto
 ### Camadas
