@@ -1,4 +1,4 @@
-# Simulador de Substituição de Páginas
+# Simulador de Algoritmos de Substituição de Páginas
 
 ## Descrição
 Este projeto implementa um simulador de algoritmos de substituição de páginas de memória. Dada uma sequência de referências de páginas e diversos parâmetros de configuração, o simulador executa uma série de algoritmos (FIFO, Segunda-Chance/CLOCK, LRU, Ótimo, NRU e WS-Clock), calcula o número de faltas e acertos de página, mede o tempo de execução de cada um e gera gráficos comparativos.
